@@ -1,0 +1,32 @@
+{
+	"name": "Pytorch GPU (Python 3.12)",
+	"build": {
+		"context": "..",
+		"dockerfile": "Dockerfile"
+	},
+	"runArgs": [
+		"--gpus=all",
+		"--runtime=nvidia",
+		"--ipc=host",
+		"--privileged"
+	],
+	"forwardPorts": [
+		8888, // Jupyter
+		6006 // TensorBoard
+	],
+	"postCreateCommand": "python -c 'import torch; print(f\"PyTorch {torch.__version__} CUDA available: {torch.cuda.is_available()}\")'",
+	"customizations": {
+		"vscode": {
+			"settings": {
+				"python.defaultInterpreterPath": "/opt/conda/envs/pytorchbook/bin/python",
+				"python.condaPath": "/opt/conda/bin/conda"
+			},
+			"extensions": [
+				"ms-python.python",
+				"ms-toolsai.jupyter",
+				"ms-azuretools.vscode-docker"
+			]
+		}
+	},
+	"remoteUser": "root"
+}
